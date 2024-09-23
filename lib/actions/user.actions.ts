@@ -12,7 +12,7 @@ import {
 
 import { plaidClient } from "@/lib/plaid";
 import { revalidatePath } from "next/cache";
-// import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
+import { addFundingSource, createDwollaCustomer } from "./dwolla.actions";
 import { ID, Query } from "node-appwrite";
 
 const {
@@ -74,14 +74,14 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     if (!newUserAccount) throw new Error("Error creating user");
 
-    // const dwollaCustomerUrl = await createDwollaCustomer({
-    //   ...userData,
-    //   type: "personal",
-    // });
+    const dwollaCustomerUrl = await createDwollaCustomer({
+      ...userData,
+      type: "personal",
+    });
 
-    // if (!dwollaCustomerUrl) throw new Error("Error creating Dwolla customer");
+    if (!dwollaCustomerUrl) throw new Error("Error creating Dwolla customer");
 
-    // const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
+    const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
 
     const newUser = await database.createDocument(
       DATABASE_ID!,
@@ -90,8 +90,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       {
         ...userData,
         userId: newUserAccount.$id,
-        // dwollaCustomerId,
-        // dwollaCustomerUrl,
+        dwollaCustomerId,
+        dwollaCustomerUrl,
       }
     );
 
@@ -116,7 +116,7 @@ export async function getLoggedInUser() {
 
     const user = await account.get();
 
-    return parseStringify(user)
+    return parseStringify(user);
   } catch (error) {
     return null;
   }
@@ -143,7 +143,7 @@ export const createLinkToken = async (user: User) => {
       client_name: `${user.firstName} ${user.lastName}`,
       products: ["auth"] as Products[],
       language: "en",
-      country_codes: ["US"] as CountryCode[],
+      country_codes: ["DZ"] as CountryCode[],
     };
 
     const response = await plaidClient.linkTokenCreate(tokenParams);

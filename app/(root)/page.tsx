@@ -1,7 +1,7 @@
 import RecentsTransactions from "@/components/RecentsTransactions";
 import RightSideBAr from "@/components/RightSideBAr";
-import HeaderBox from "@/components/ui/HeaderBox";
-import TotalBalanceBox from "@/components/ui/TotalBalanceBox";
+import HeaderBox from "@/components/HeaderBox";
+import TotalBalanceBox from "@/components/TotalBalanceBox";
 import { getAccounts, getAccount } from "@/lib/actions/bank.actions";
 import { getLoggedInUser } from "@/lib/actions/user.actions";
 import React from "react";

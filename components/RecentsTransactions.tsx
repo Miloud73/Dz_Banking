@@ -5,12 +5,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BankTabItem } from "./BankTabItem";
 import BankInfo from "./BankInfo";
 import TransactionsTable from "./TransactionsTable";
+import { Pagination } from "./Pagination";
 
 const RecentsTransactions = ({
   accounts = [], // Provide a default value of an empty array
   transactions = [],
-  page = 1,
   appwriteItemId,
+  page = 1,
 }: RecentTransactionsProps) => {
   const rowsPerPage = 10;
   const totalPages = Math.ceil(transactions.length / rowsPerPage);
